@@ -51,10 +51,8 @@ int main(int argc, char *argv[]) {
     // Writing pixel data
 //    size_t numberOfPixels = 
 
-    for (size_t i = 1; i < argc; i++){
-        std::cout << argv[i];
-    }
-
+    std::cout << argc << std::endl;
+    
     return 0;
 }
 

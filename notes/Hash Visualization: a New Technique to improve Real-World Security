@@ -1,0 +1,36 @@
+http://users.ece.cmu.edu/~adrian/projects/validation/validation.pdf
+2 Human limitations
+    Inability to remember good secure passwords
+    Inability to compare strings
+        - Good XKCD (Correct Horse Battery Lightbulb) comic about this on my boss's desk. IS that really the best way to make a secure password? If so, that could be a good project, to visualize such a thing.
+        - Strong/good password mean passwords that can't be socially engineered
+        - Meaningless passwords mean hashs, that make a LOT more sense to a computer comparing bits than a human comparing characters
+        - People are much better at comparing meaningFUL strings
+        - People are good at comparing pictures
+    
+What is the Handbook of Applied Cryptography
+Look into 
+[10] Alfred J. Menezes, Paul van Oorschot, and Scott
+Vanstone. Handbook of Applied Cryptography. CRC
+Press, 1997.
+
+Hash function h is 
+    Compression 
+        Maps x of arbitrary length to h(x) fixed amount
+    Ease of computation
+        h(x) is always easy to compute
+    Preimage resistance
+        No h(x) = h(y)
+        No similar hashes for two seperate inputs
+    2nd-preimage resistance
+        h(x) != h(h(x))
+    Collision resistance
+        no h(x) == h(y)
+        How is this different from preimage resistance?
+
+For a visual hash function h1
+    Maps arbitrary x to finite h1(x)
+    Easy to compute
+
+If two images h1 and h2 are perceptually indistinguishable
+    h1~h2
