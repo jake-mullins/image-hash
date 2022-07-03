@@ -109,6 +109,29 @@ For this scheme to work, images must be shown in a SECURE WAY where literally no
 
 Fighting pre-image attacks is easy
 Fighting collisions is real hard.
+    - When using the expression tree method, you run up against problems dealing with commutative properties of addition + and multiplication *, which is unfortunate, as removing them entirely would probably reduce the complexity of bruteforcing the hash.   
+    - Because of this, the authors could not formally prove that the Expression Tree method does not satisfy Hash requirement
+Using the Birthday paradox, they can experimentally check for the difficulty of collision using 
+N: Total possible images/"image space"
+n: total number of experimental images
+m: total number of collisions
+P(N, n, m) => (n - 1, m) (N! / (N^(n - m - 1) * (N - n + m + 1)!)) * ((n - m) / N) ^ m
+
+After getting samples si (1 <=  i <= n):
+    Suppose for now r = n
+    |    I HAVE NO IDEA WHAT THIS MEANS 
+    v
+    P(N, n, m) = (BIG PI 1 <= i <= n)   {
+                                            r / N       :if si new, r = r -1
+                                            (N - r) / N :else si is a collision
+                                        }
+
+Future work
+    - Implementation of a prototype system, where one user memorizes a couple of pictures. Upon authentication, a user must choose from a set of pictures.
+    - Strengthen Random Art algorithm
+    - Evaluate how many perceptually different images can be generated
+
+    BRING MEANING TO A SECURE PASSWORD
 
 Questions:
 Look into Random Art by Andrej Bauer
