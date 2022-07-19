@@ -1,0 +1,16 @@
+Guy with good explanation on creating a "local hash" (a, p, d, and w-hashes), useful for creating a hash from a picture
+    https://stackoverflow.com/questions/998662/what-is-image-hashing-used-for
+
+Look into gravatar.com
+
+Would layered perlin noise be a good route? Like from Sebastian Lague?
+    Random colors
+    Random strengths of octaves
+    Random frequencies of octaves
+    
+Blurhash, Great product, interesting, but not relevant
+
+Opensource C++ Perlin and more noise library
+http://libnoise.sourceforge.net/
+
+Couldn't add together a bunch of sine waves to randomly create a signal that that is resistant to being calculated the other way, as you could simply do a fourier transform to get the inputs. What are some ways around this? Maybe for each sample, a random offset that is recorded in a private place?

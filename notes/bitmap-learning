@@ -1,0 +1,20 @@
+Binary file formats contain a 
+    Header
+    Body
+
+Header for a bitmap contains 
+    Identifier
+        2 Bytes 
+        BM on Win 3 and up
+    Size
+        4 Bytes
+        up to ~34.36 Gigabytes
+
+Lets do 
+    200 x 200 white image
+    300 x 200 black image
+    300 x 50 gray image 
+
+
+ToDo
+    Why is there a origin/main and an origin/master branch

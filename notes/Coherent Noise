@@ -1,0 +1,18 @@
+http://libnoise.sourceforge.net/glossary/index.html#coherentnoise
+Coherent Noise: Smooth pseudorandom noise
+
+3 properties of coherent noise
+1: same values, same result
+    if x1 == x2
+    f(x1) == f(x2)
+2: slightly different values, slightly different results
+    if x1 ~== x2
+    f(x1) ~== f(x2)
+3: greatly different values, greatly different results
+    if x1 !== x2
+    f(x1) !== f(x2)
+
+For n-dimensional noise function
+input: n-length vector
+output: scalar (1-length vector or a number for non-nerds)
+
