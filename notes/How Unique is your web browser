@@ -1,0 +1,86 @@
+https://coveryourtracks.eff.org/static/browser-uniqueness.pdf
+
+Estimated 18.1 bits of entropy on an environment of people who KNOW about security
+99.1% of the time, a simple algorithm would've been able to pick up any changes. IDK the EXACT methodology of how they verified this statistics
+ 
+Global Identifiers: Given there are enough unique identifiers, a browser will be able to use a fingerprint as a Global Identifier, to track a user between sessions. The ONLY way to ensure this doesn't happen is to ensure that a big enough change happens in the browser to "break" the fingerprint
+Fingerprints can even distinguish between hosts using the SAME IP
+
+Fingerprinting does NOT involve a hash with parameters of HTTP requests and the browser being used as inputs, but instead a simple concatenation 8 properties found in table A including
+    - User Agent: Pretty sure this is an HTTP Header
+    - HTTP Accept header: Bruh idk
+    - Cookies enabled: Bruh idk, is this a header? Is this a setting
+    - Screen Resolution: Taken by JS Ajax call to server
+    - Timezone: JS Ajax call to server
+    - Browser Plugins, plugin versions, MIME type: JS Ajax call to server
+    - System fonts: From flash or Java, collected by AJAX
+    - Supercookie test: As far as I can tell, supercookies have been phased out of most modern browsers
+
+3 criteria for NOT including a measure
+    - Unaware (We stupid)
+    - Unstable (Could change between browser)
+    - Unintrusive (Consent required)
+
+Also Mal Bicho by Los Fabulosos Cadillacs is good
+
+Surprisal: Amount of information that is provided for a given identity by a group/piece of information
+    - Surprisal can only be added linearly if 2 variables are statistically significant
+There are certain technologies/software/groups/databases that are WAY better at fingerprinting than the test software produced by EFF.
+    - Acrot: PC Clock speeds
+    - 41st Parameter: 100+ factors, able to tell difference between server clock and computer clock
+    - ThreatMetrix: Check for irregularities in TCP/IP stack, whatever that means
+    - Iovation: Provides device tagging + fingerprinting
+
+Data was collected in 2010, so the landscape is likely completely different
+They recorded 
+    - The fingerprint as above
+    - HTTP cookie ID
+    - HMAC of the IP
+    - HMAC of the IP with LEAST significant octet removed
+
+Honestly where was this paper in my Research class in High School, following this model would've gotten me a 5
+Figure 2 is interesting, but horribly outdated. Firefox has 4 times the users as Chrome
+
+Algorithm for guessing if a fingerprint is the same between sessions:
+G <- Set of all browsers
+q <- Arbitrary fingerprint 
+candidates <- []
+for all g in G do:
+    for i in {1,8} do: #the 8 attributes
+        if for all j in {1,8}, j != i: Fj(g) = Fj(q) then:
+            candidates += (g,j)
+if length(candidates) = 1:
+    g,j <- candidates[0]
+    if j in {cookies?, video, timezone, supercookies}:
+        return g
+    else:
+        #j in {user_agent, http_accept, plugins, fonts}
+        if SequenceMatcher(Fj(g), Fj(q)).ratio() < 0.85: # Estimates the similarity of strings
+            return g
+return NULL
+
+Because of how the browsers worked, basically no one had the same list of fonts
+
+Questions:
+What the heck is a supercookie?
+    LATELY Supercookie has been used to refer to identifiers that reside on the server, like saving fingerprints, that could potentially be sent to other websites. It was originally used to refer to something like that mechanism originally employed by Adobe and Microsoft many many moons ago.
+
+    https://blog.mozilla.org/security/2021/01/26/supercookie-protections/
+    In the above firefox article, images could potentially be used to store/send identifiers in various caches, including
+        - HTTP Cache
+        - Image Cache
+        - Favicon Cache
+        - HSTS Cache
+        - OCSP Cache
+        - CSS/Font Cache
+        - DNS Cache
+        - HTTP Auth Cache
+        - Alt-svc cache
+        - TLS Cache
+    Not all of these can be used for identification, but Firefox partitioned all of them as a precaution. Does Chrome do that? I'd bet my 40$ Pawn shop Asus Chromebook that Brave, DuckDuckGo etc have already done that, if they even have caches
+
+Is a measurement of uncertainty in bits called a surprisal?
+
+Could I create a program that modifies all outgoing HTTP traffic, removing any font data and user-agent data? or modifying it? It seems that the authors ran up against the issue of forged UserAgents
+
+Try and interpret that spooky weird graph
