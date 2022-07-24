@@ -16,3 +16,32 @@ For n-dimensional noise function
 input: n-length vector
 output: scalar (1-length vector or a number for non-nerds)
 
+Integer noise functions, y=f(x)
+for f:
+1. same inputs, same outputs
+    x1 == x2
+2. No correlation between two points
+    a != b and f(a) != f(b)
+3. Output is always between 1 and -1
+    -1 < f(x) < 1
+
+A potential noise function:  
+All constants are primes
+    double IntegerNoise (int n)
+    {
+      n = (n >> 13) ^ n;
+      int nn = (n * (n * n * 60493 + 19990303) + 1376312589) & 0x7fffffff;
+      return 1.0 - ((double)nn / 1073741824.0);
+    }
+
+Looks like the best/most interesting option is GNU plot for graphing
+Create data, use gnuplot CLI to look at it
+
+To go from discrete to continous, have to interpolate, probably linearly.
+lerp(a,b,w) = a * (1 - w) + b * w
+If w > 0.5, bias towards b
+If w < 0.5, bias towards a
+
+The higher the rank of an interpolation equation, the better the curve looks, quintic equations for interpolation look a lot better than cubic.
+Can this be done with even-ranked equations?
+To get around "pixelization" of noise function, assign random gradient vectors/slopes at integer boundaries and interpolate in between. At this point, it actually becomes perlin noise

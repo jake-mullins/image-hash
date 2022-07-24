@@ -14,3 +14,7 @@ Opensource C++ Perlin and more noise library
 http://libnoise.sourceforge.net/
 
 Couldn't add together a bunch of sine waves to randomly create a signal that that is resistant to being calculated the other way, as you could simply do a fourier transform to get the inputs. What are some ways around this? Maybe for each sample, a random offset that is recorded in a private place?
+
+Can I check for "similarity" using whatever sentiment analysis thing that can check similarity
+
+For vscode, tasks.json holds compilation information, launch.json holds command line arguments
