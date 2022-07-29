@@ -18,3 +18,5 @@ Couldn't add together a bunch of sine waves to randomly create a signal that tha
 Can I check for "similarity" using whatever sentiment analysis thing that can check similarity
 
 For vscode, tasks.json holds compilation information, launch.json holds command line arguments
+
+If undefined reference to a libnoise thing, make sure you're using  ''g++ source_filename -o output_name -I/usr/local/include -L/usr/local/lib -lnoise''

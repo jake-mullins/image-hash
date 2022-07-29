@@ -1,0 +1,18 @@
+Executed with make command
+
+File format is 
+function_name:
+    command1 arg1 arg2
+    command2 arg3 arg4
+
+Docs say
+target: prereqs
+    recipe
+
+say_hello:
+    @echo "Hello World" 
+    @ symbol surpresses echo "Hello World"
+
+By default only runs first target/function
+Can override this with
+.DEFAULT_GOAL := generate
