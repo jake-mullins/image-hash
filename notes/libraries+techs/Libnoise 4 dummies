@@ -1,1 +1,4 @@
 Libnoise is for coherent noise, not just perlin noise
+
+To create textures, gotta use the noiseutils header
+
