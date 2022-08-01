@@ -23,4 +23,6 @@ If undefined reference to a libnoise thing, make sure you're using  ''g++ source
 
 A Relational Model of Data for Large Shared Data Banks E F Codd - Thinker of SQL
 
-Diamond-square algorithm
+Diamond-square algorithm is cool
+
+Solidify understanding of Octaves, persistences, frequency in Perlin noise

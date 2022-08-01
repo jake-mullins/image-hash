@@ -11,3 +11,7 @@ July 28 2022
 Learn how to use Makefile
 Make files are pretty sick
 Was able to compile with this super snazzy link https://stackoverflow.com/questions/25557236/compiling-libnoise-with-a-makefile
+
+July 30-31 2022
+FINALLY Able to compile w/ noiseutils. I guess I'm not as smart as I thought
+Looking into setting a seed based on immutable hardware information. Most of my work if I go through with this introducing enough entropy bits that it's competitive to other forms of identification
