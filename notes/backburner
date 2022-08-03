@@ -1,23 +1,32 @@
-Guy with good explanation on creating a "local hash" (a, p, d, and w-hashes), useful for creating a hash from a picture
-    https://stackoverflow.com/questions/998662/what-is-image-hashing-used-for
+Anything with an X has been investigated enough
+Anything with a Y is an answer to the previous question 
 
-Look into gravatar.com
+X Look into gravatar.com
+Y Cool product, not useful
 
-Would layered perlin noise be a good route? Like from Sebastian Lague?
+X Would layered perlin noise be a good route? Like from Sebastian Lague?
     Random colors
     Random strengths of octaves
     Random frequencies of octaves
-    
-Blurhash, Great product, interesting, but not relevant
+Y Seems good enough. 
 
-Opensource C++ Perlin and more noise library
-http://libnoise.sourceforge.net/
+X Blurhash, Great product, interesting, but not relevant
+
+X Opensource C++ Perlin and more noise library
+X http://libnoise.sourceforge.net/
+Y I hate old code but honestly new c++ code is not much better. Does exactly what I want and has a lot of handles you can turn. More importantly, you can string generator modules together to add more complexity
+
+X For vscode, tasks.json holds compilation information, launch.json holds command line arguments
+
+Guy with good explanation on creating a "local hash" (a, p, d, and w-hashes), useful for creating a hash from a picture
+    https://stackoverflow.com/questions/998662/what-is-image-hashing-used-for
 
 Couldn't add together a bunch of sine waves to randomly create a signal that that is resistant to being calculated the other way, as you could simply do a fourier transform to get the inputs. What are some ways around this? Maybe for each sample, a random offset that is recorded in a private place?
+CAN YOU FOURIER TRANSFORM YAHSELF A SYSTEM OF ANY PERIODIC FUNCTIONS? CAN YOU DO THE SAME IF EVERY INPUT HAS A RANDOM OFFSET? Like
+    y = 5sin(2x) + 1
+    y = 4tan(0.15x) - 4 
 
 Can I check for "similarity" using whatever sentiment analysis thing that can check similarity
-
-For vscode, tasks.json holds compilation information, launch.json holds command line arguments
 
 If undefined reference to a libnoise thing, make sure you're using  ''g++ source_filename -o output_name -I/usr/local/include -L/usr/local/lib -lnoise''
 

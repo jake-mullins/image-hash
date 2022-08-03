@@ -1,0 +1,9 @@
+- For things/features/bugs that decreases complexity
++ For things/features/bugs that increases complexity
+
+- Using ASCII representation of system data as seed for perlin noise
+    If only counting printable characters, 176 instead of 256 possible characters
+    Really going to be [a-z][A-Z][0-9] and +()*.,/-=!@#$%^&*_"':;<>?/ so like 84 characters
+    Significantly reduces hash crack complexity
+
++ Check operating system using 
