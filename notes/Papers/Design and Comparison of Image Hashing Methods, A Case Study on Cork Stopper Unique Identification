@@ -1,0 +1,46 @@
+Citation: Fitas, R.; Rocha, B.; Costa, V.; Sousa, A. Design and Comparison of Image Hashing Methods: A CaseStudy on Cork Stopper Unique Identification. J. Imaging 2021, 7, 48. https://doi.org/10.3390/ jimaging7030048
+
+Using image hashing of corks for anti-counterfeiting efforts in Portugal
+Analyzing image HASHES instead of actual images speeds up problem by about ~40 times allegedly
+This kind of analysis can be applied to counterfeit medicine
+
+Fingerprint of Things
+    - Non-invasive
+    - Inexpensive compared to shipping everything with RFID tags
+    - Basically just photographing stuff as it comes off of the assembly line
+
+Physical Unclonability and Disorder (PUD)
+    - Randomness/distribution of physical characteristics
+    - UNique Objects (UNOs)
+        - Scratches on the face of a screw
+        - Time skew on a quartz clock
+    - Physical Unclonable Functions (PUFs)
+
+Using a hash for image analysis has a couple of advantages
+    - Reduction in noise
+    - Faster to compute
+
+Image rotation is the toughest problem to solve
+Interpolation when scaling to 512x512 is done using bicubic interpolation of its neighbors
+
+Gaussian smoothing to get rid of noise
+Cropping
+    - Because this was done on the business end of a cork, they got away with a circle cropping
+Contrast stretching
+    - If a low contrast image, normalizes to use the full range of [0-255]
+    
+Discrete Cosine Transform DCT
+    Look up DCT table, basically a way of seeing how much any of those cells contribute to the image
+Discrete Wavelet Transform DWT
+    Like DCT but better for high frequency inputs using 
+Difference Hash DH
+    DHash in that original blog post. Reduces picture down to NxN grayscale, changes all resulting pixels to 0 or 1 based on a threshold, and a row/column hash is calculated based on if it increases
+Average Hash AH
+    AHash in the original blog post. Reduces picture to NxN grayscale, averages intensity of all pixels, each pixel is compared to the average value.
+Radon Transform RT
+    I DONT UNDERSTAND not super relevant so I'm not too worked up 
+Hough Transform
+    I DONT UNDERSTAND not super relevant so I'm not too worked up
+    Allegedly good at finding straight lines in the presence of noise
+Questions:
+What is a PUF? Find some examples
