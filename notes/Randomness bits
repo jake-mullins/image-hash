@@ -1,9 +1,12 @@
 - For things/features/bugs that decreases complexity
 + For things/features/bugs that increases complexity
+This is something I want to keep track of for the future, to be able to quantify just how random it is. Would be nice to throw this on a future thesis or paper or something
+
 
 - Using ASCII representation of system data as seed for perlin noise
     If only counting printable characters, 176 instead of 256 possible characters
     Really going to be [a-z][A-Z][0-9] and +()*.,/-=!@#$%^&*_"':;<>?/ so like 84 characters
     Significantly reduces hash crack complexity
 
-+ Check operating system using 
++ Check operating system using https://stackoverflow.com/questions/3596310/c-how-to-use-the-function-uname
+    Can get hostname

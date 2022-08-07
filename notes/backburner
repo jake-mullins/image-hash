@@ -1,5 +1,6 @@
 Anything with an X has been investigated enough
 Anything with a Y is an answer to the previous question 
+This is for CONCEPTS, NOT a todo list. Anything that needs to be DONE on the code will be in comments
 
 X Look into gravatar.com
 Y Cool product, not useful
@@ -33,5 +34,8 @@ If undefined reference to a libnoise thing, make sure you're using  ''g++ source
 A Relational Model of Data for Large Shared Data Banks E F Codd - Thinker of SQL
 
 Diamond-square algorithm is cool
+    What is it?
 
 Solidify understanding of Octaves, persistences, frequency in Perlin noise
+
+Learn how to write open source software that is expandable

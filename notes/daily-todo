@@ -15,3 +15,6 @@ Was able to compile with this super snazzy link https://stackoverflow.com/questi
 July 30-31 2022
 FINALLY Able to compile w/ noiseutils. I guess I'm not as smart as I thought
 Looking into setting a seed based on immutable hardware information. Most of my work if I go through with this introducing enough entropy bits that it's competitive to other forms of identification
+
+August 2nd 2022
+    Starting to fingure out how to gather information with C++, thinking about how to architect the software so that it is easy to understand and easy to expand upon
