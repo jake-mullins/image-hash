@@ -19,15 +19,18 @@ Y I hate old code but honestly new c++ code is not much better. Does exactly wha
 
 X For vscode, tasks.json holds compilation information, launch.json holds command line arguments
 
-Guy with good explanation on creating a "local hash" (a, p, d, and w-hashes), useful for creating a hash from a picture
+X Can I check for "similarity" using whatever sentiment analysis thing that can check similarity
+Y Guy with good explanation on creating a "local hash" (a, p, d, and w-hashes), useful for creating a hash from a picture
     https://stackoverflow.com/questions/998662/what-is-image-hashing-used-for
+
+For funsies/impressing future master's program people I should implemenet a-hash which is allegdly pretty simple
+Afterwards do a Hamming distance on it
 
 Couldn't add together a bunch of sine waves to randomly create a signal that that is resistant to being calculated the other way, as you could simply do a fourier transform to get the inputs. What are some ways around this? Maybe for each sample, a random offset that is recorded in a private place?
 CAN YOU FOURIER TRANSFORM YAHSELF A SYSTEM OF ANY PERIODIC FUNCTIONS? CAN YOU DO THE SAME IF EVERY INPUT HAS A RANDOM OFFSET? Like
     y = 5sin(2x) + 1
     y = 4tan(0.15x) - 4 
 
-Can I check for "similarity" using whatever sentiment analysis thing that can check similarity
 
 If undefined reference to a libnoise thing, make sure you're using  ''g++ source_filename -o output_name -I/usr/local/include -L/usr/local/lib -lnoise''
 
