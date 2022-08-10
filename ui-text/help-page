@@ -1,0 +1,6 @@
+fingerprint-generator
+    --local
+        Generate a random perlin-noise image using information that can be gleaned from your machine by this program as a seed
+        
+    --input <input-string>
+        Generate a random perlin-noise image using the input-string as a seed

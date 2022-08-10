@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <sys/utsname.h>
 
 std::string getOsName();
@@ -11,16 +12,52 @@ std::string getOsName();
 std::string getLinuxSpecificInputString();
 utsname getUnameInfo();
 
-int main(int argc, char *argv[])
+// UI stuff
+std::string fullHelpPath = "ui-text/help-page";
+void printFullHelp()
 {
+    // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
+    std::ifstream t;
+    t.open(fullHelpPath);
+    std::string line;
+    while (t)
+    {
+        std::getline(t, line);
+        std::cout << line << std::endl;
+    }
+    t.close();
+}
+
+int main(int argc, char **argv)
+{
+
+    std::vector<std::string> args;
+    for (int i = 1; i < argc; i++)
+    {
+        args.push_back(argv[i]);
+    }
+
+    // Help menu
+    if (args.empty() || args.at(0) == "--help")
+    {
+        printFullHelp();
+        return 0;
+    }
+
+    // Generate map using command line input
+    if (args.at(0) == "--local") {
+        std::cout << "Generating a bitmap (hopefully) unique to your computer..." << std::endl;
+    }
+
+    // Generate map using hardware information
 
     std::string inputString;
     std::string hostOS = getOsName();
 
-    // Detect OS
+    // Detect OS WHY AREN'T CASE SWITCHES A THING IN C++ AHHHH
     if (hostOS == "Linux")
     {
-        std::cout << getLinuxSpecificInputString() << std::endl;
+        inputString = getLinuxSpecificInputString();
     }
 
     return 0;
@@ -86,8 +123,8 @@ std::string getLinuxSpecificInputString()
 
     // Based on a a prior input from that super snazzy immutable hardware information, decide whether or not to capitalize the MAC address
     // Could combine all of the sysInfo information together (hashing I guess?) and look at the last or a random bit to see if it is 1 or 0, adding a whole 'nother bit of complexity. Would have to make sure that the last entry is not the deciding factor
-    std::string macStringContent(   (std::istreambuf_iterator<char>(ifs)),
-                                    (std::istreambuf_iterator<char>()   ));
+    std::string macStringContent((std::istreambuf_iterator<char>(ifs)),
+                                 (std::istreambuf_iterator<char>()));
     total += macStringContent;
 
     return total;

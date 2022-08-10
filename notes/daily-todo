@@ -18,3 +18,7 @@ Looking into setting a seed based on immutable hardware information. Most of my 
 
 August 2nd 2022
     Starting to fingure out how to gather information with C++, thinking about how to architect the software so that it is easy to understand and easy to expand upon
+
+August 9th 2022
+    Looked into writing man pages, thats a tomorrow issue
+    Started writing CLI, need to narrow down exactly what I need
