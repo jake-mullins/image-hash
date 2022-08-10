@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include <noise/noise.h>
-#include "noiseutils.cpp"
+#include "noise/noiseutils.cpp"
 
 int main(int argc, char *argv[])
 {

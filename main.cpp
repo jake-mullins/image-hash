@@ -6,6 +6,9 @@
 #include <vector>
 #include <sys/utsname.h>
 
+#include <noise/noise.h>
+#include "noise/noiseutils.h"
+
 std::string getOSName();
 
 // Linux stuff (Developed on Ubuntu)
@@ -18,9 +21,9 @@ void printFullHelp();
 void printError(std::string errorExplanation);
 
 // Generator stuff
+std::string outputPath = "output.bmp";
 void generatePicture();
 void generateLinuxPicture();
-
 
 int main(int argc, char **argv)
 {
@@ -54,7 +57,6 @@ int main(int argc, char **argv)
 
     // Generate map using command line input
     if (args.at(0) == "--input" && args.size() == 2) {
-
         return 0;
     }
 
@@ -116,6 +118,8 @@ void generatePicture() {
 void generateLinuxPicture() {
     std::string inputString = getLinuxSpecificInputString();
     std::cout << inputString << std::endl;
+
+    noise::module::Perlin perlin;
 }
 
 std::string getLinuxSpecificInputString()
