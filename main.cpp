@@ -6,7 +6,7 @@
 #include <vector>
 #include <sys/utsname.h>
 
-std::string getOsName();
+std::string getOSName();
 
 // Linux stuff (Developed on Ubuntu)
 std::string getLinuxSpecificInputString();
@@ -14,19 +14,13 @@ utsname getUnameInfo();
 
 // UI stuff
 std::string fullHelpPath = "ui-text/help-page";
-void printFullHelp()
-{
-    // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
-    std::ifstream t;
-    t.open(fullHelpPath);
-    std::string line;
-    while (t)
-    {
-        std::getline(t, line);
-        std::cout << line << std::endl;
-    }
-    t.close();
-}
+void printFullHelp();
+void printError(std::string errorExplanation);
+
+// Generator stuff
+void generatePicture();
+void generateLinuxPicture();
+
 
 int main(int argc, char **argv)
 {
@@ -44,26 +38,32 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    // Generate map using command line input
+    // Generate map using hardware information
     if (args.at(0) == "--local") {
         std::cout << "Generating a bitmap (hopefully) unique to your computer..." << std::endl;
+        generatePicture();
+        return 0;
     }
 
-    // Generate map using hardware information
+    // Not enough args
+    if (args.at(0) == "--input" && args.size() == 1) {
+        printError("No input given");
+        printFullHelp();
+        return 0;
+    }
 
-    std::string inputString;
-    std::string hostOS = getOsName();
+    // Generate map using command line input
+    if (args.at(0) == "--input" && args.size() == 2) {
 
-    // Detect OS WHY AREN'T CASE SWITCHES A THING IN C++ AHHHH
-    if (hostOS == "Linux")
-    {
-        inputString = getLinuxSpecificInputString();
+        return 0;
     }
 
     return 0;
 }
 
-std::string getOsName()
+
+
+std::string getOSName()
 {
 #ifdef _WIN32
     return "Windows 32-bit";
@@ -82,9 +82,44 @@ std::string getOsName()
 #endif
 }
 
+
+// UI Stuff
+void printError(std::string errorExplanation) {
+    std::cout << "error: " << errorExplanation << std::endl << std::endl;
+}
+void printFullHelp() {
+    // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
+    std::ifstream t;
+    t.open(fullHelpPath);
+    std::string line;
+    while (t)
+    {
+        std::getline(t, line);
+        std::cout << line << std::endl;
+    }
+    t.close();
+}
+
+// Generator 
+// Wrapper function
+    // Logic for deciding which OS to use
+void generatePicture() {
+    std::string OSName = getOSName();
+
+    if (OSName == "Linux") {
+        generateLinuxPicture();
+    } else {
+        printError("Unsupported OS. If you want this OS to be supported, contribute to this project!");
+    }
+}
+
+void generateLinuxPicture() {
+    std::string inputString = getLinuxSpecificInputString();
+    std::cout << inputString << std::endl;
+}
+
 std::string getLinuxSpecificInputString()
 {
-
     std::string total = "";
 
     // C(?) code pulled from https://stackoverflow.com/questions/3596310/c-how-to-use-the-function-uname
@@ -129,5 +164,6 @@ std::string getLinuxSpecificInputString()
 
     return total;
 }
+
 
 #endif
