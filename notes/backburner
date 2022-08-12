@@ -42,3 +42,23 @@ Diamond-square algorithm is cool
 Solidify understanding of Octaves, persistences, frequency in Perlin noise
 
 Learn how to write open source software that is expandable
+
+Fixed number of generators at 4 or 6
+Is the next link an In Modifier/Out Modifier/Nothing?
+    Always must end in a combiner
+Valid combiners
+    Add
+    Max
+    Min but honestly nah not enough color
+    Multiply but same issue as Min
+    Power looks nice especially with Voronoi but nah too susceptible to darkness
+    Blend REQUIRES 3 inputs
+Valid In Modifier
+    Turbulence
+    Displace REQUIRES 4
+    Invert
+    Rotate with random values between 0 and 360
+    Scale with random values between -4 and 4
+    Translate with random values
+
+Using std::hash which has coll

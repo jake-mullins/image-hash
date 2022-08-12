@@ -120,6 +120,7 @@ void generateLinuxPicture() {
     std::cout << inputString << std::endl;
 
     noise::module::Perlin perlin;
+    double value = perlin
 }
 
 std::string getLinuxSpecificInputString()
