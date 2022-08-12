@@ -22,3 +22,6 @@ August 2nd 2022
 August 9th 2022
     Looked into writing man pages, thats a tomorrow issue
     Started writing CLI, need to narrow down exactly what I need
+
+August 11th 2022
+    Instead of using std::hash, I'm going to implement an SHA-256 hash algorithm hopefully using this https://helix.stormhub.org/papers/SHA-256.pdf

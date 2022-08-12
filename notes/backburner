@@ -61,4 +61,5 @@ Valid In Modifier
     Scale with random values between -4 and 4
     Translate with random values
 
-Using std::hash which has coll
+Could use std::hash which results in 32 bit hash
+Probably going to implement SHA-256 just for funzies. Would be practice for the next CS class I'm taking
