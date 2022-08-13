@@ -167,15 +167,24 @@ void generateLinuxPicture()
     std::string inputString = getLinuxSpecificInputString();
     unsigned int intOfString = intRepresentationOfString(inputString);
 
-    // Use super crazy modulus using adjacent high number primes to decide what to do with this
-    // OR 
     // Use input strng as seed for random number generator
     std::srand(intOfString);
 
     // For each decision, assign a decision value
     // Mod it by how many choices there are, assign the choice based on the result
     std::vector<int> decisionValues;
-    // Do I use iterators for this?
+    const int numberOfChoices = 10;
+
+    for(int i = 0; i < 10; ++i) {
+        decisionValues.push_back(rand());
+    }
+
+    std::vector<int>::iterator ptr = decisionValues.begin();
+
+    while(ptr != decisionValues.end()) {
+        std::cout << *ptr << std::endl;
+        ptr = std::next(ptr,1);
+    }
 }
 
 std::string getLinuxSpecificInputString()
