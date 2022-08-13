@@ -63,3 +63,35 @@ Valid In Modifier
 
 Could use std::hash which results in 32 bit hash
 Probably going to implement SHA-256 just for funzies. Would be practice for the next CS class I'm taking
+
+Model goes
+Get Input string
+    |
+    V
+Hash it
+    |
+    V
+Do some wacky bit analysis to come up with specifics of picture
+Maybe mod it by a bunch of consecutive really high prime numbers
+
+How do I do 
+    AND ∧
+    XOR ⊕
+    OR ∨
+    Bitwise Complement ̄
+    Integer Addition mod 2^32 A + B 
+
+    All on 32 bit words
+
+    Circular right shift of n bits in word A RotR(A,n)
+    Right shift of n bits in word A ShR(A,n)
+    Concatenation of binary words A and B A‖B
+
+    Ch(X, Y, Z) = (X ∧ Y ) ⊕ (X ∧ Z),
+    M aj(X, Y, Z) = (X ∧ Y ) ⊕ (X ∧ Z) ⊕ (Y ∧ Z)
+    Σ0(X) = RotR(X, 2) ⊕ RotR(X, 13) ⊕ RotR(X, 22)
+    Σ1(X) = RotR(X, 6) ⊕ RotR(X, 11) ⊕ RotR(X, 25)
+    σ0(X) = RotR(X, 7) ⊕ RotR(X, 18) ⊕ ShR(X, 3)
+    σ1(X) = RotR(X, 17) ⊕ RotR(X, 19) ⊕ ShR(X, 10)
+
+    In C++?
