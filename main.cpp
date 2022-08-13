@@ -4,12 +4,15 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cmath>
 #include <sys/utsname.h>
 
 #include <noise/noise.h>
 #include "noise/noiseutils.h"
 
+// Utils
 std::string getOSName();
+unsigned int intRepresentationOfString(std::string input);
 
 // Linux stuff (Developed on Ubuntu)
 std::string getLinuxSpecificInputString();
@@ -25,9 +28,33 @@ std::string outputPath = "output.bmp";
 void generatePicture();
 void generateLinuxPicture();
 
+// High adjacent primes can be used for easy predictable decision making
+// Source: https://youtu.be/GjkjJwPUgsA
+const unsigned int highAdjacentPrimes[20] = {
+    158959,
+    158981,
+    158993,
+    159013,
+    159017,
+    159023,
+    159059,
+    159073,
+    159079,
+    159097,
+    159113,
+    159119,
+    159157,
+    159161,
+    159167,
+    159169,
+    159179,
+    159191,
+    159193,
+    159199
+};
+
 int main(int argc, char **argv)
 {
-
     std::vector<std::string> args;
     for (int i = 1; i < argc; i++)
     {
@@ -42,28 +69,29 @@ int main(int argc, char **argv)
     }
 
     // Generate map using hardware information
-    if (args.at(0) == "--local") {
+    if (args.at(0) == "--local")
+    {
         std::cout << "Generating a bitmap (hopefully) unique to your computer..." << std::endl;
         generatePicture();
         return 0;
     }
 
     // Not enough args
-    if (args.at(0) == "--input" && args.size() == 1) {
+    if (args.at(0) == "--input" && args.size() == 1)
+    {
         printError("No input given");
         printFullHelp();
         return 0;
     }
 
     // Generate map using command line input
-    if (args.at(0) == "--input" && args.size() == 2) {
+    if (args.at(0) == "--input" && args.size() == 2)
+    {
         return 0;
     }
 
     return 0;
 }
-
-
 
 std::string getOSName()
 {
@@ -84,12 +112,27 @@ std::string getOSName()
 #endif
 }
 
+unsigned int intRepresentationOfString(std::string input)
+{
+
+    unsigned int runningTotal = 0;
+
+    for (int i = input.length(); i >= 0; --i)
+    {
+        runningTotal += i * pow(2, 8) + input[i];
+    }
+
+    return runningTotal;
+}
 
 // UI Stuff
-void printError(std::string errorExplanation) {
-    std::cout << "error: " << errorExplanation << std::endl << std::endl;
+void printError(std::string errorExplanation)
+{
+    std::cout << "error: " << errorExplanation << std::endl
+              << std::endl;
 }
-void printFullHelp() {
+void printFullHelp()
+{
     // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
     std::ifstream t;
     t.open(fullHelpPath);
@@ -102,25 +145,33 @@ void printFullHelp() {
     t.close();
 }
 
-// Generator 
+// Generator
 // Wrapper function
-    // Logic for deciding which OS to use
-void generatePicture() {
+// Logic for deciding which OS to use
+void generatePicture()
+{
     std::string OSName = getOSName();
 
-    if (OSName == "Linux") {
+    if (OSName == "Linux")
+    {
         generateLinuxPicture();
-    } else {
+    }
+    else
+    {
         printError("Unsupported OS. If you want this OS to be supported, contribute to this project!");
     }
 }
 
-void generateLinuxPicture() {
+void generateLinuxPicture()
+{
     std::string inputString = getLinuxSpecificInputString();
-    std::cout << inputString << std::endl;
+    unsigned int intOfString = intRepresentationOfString(inputString);
 
-    noise::module::Perlin perlin;
-    double value = perlin
+    std::cout << inputString << std::endl;
+    // Use super crazy modulus using adjacent high number primes to decide what to do with this
+    for(int i = 0; i < 20; ++i) {
+        std::cout << intOfString % highAdjacentPrimes[i] << std::endl;
+    }
 }
 
 std::string getLinuxSpecificInputString()
@@ -169,6 +220,5 @@ std::string getLinuxSpecificInputString()
 
     return total;
 }
-
 
 #endif
