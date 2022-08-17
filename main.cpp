@@ -27,31 +27,10 @@ void printError(std::string errorExplanation);
 std::string outputPath = "output.bmp";
 void generatePicture();
 void generateLinuxPicture();
+void generatePictureBySeed(std::string seed);
 
 // High adjacent primes can be used for easy predictable decision making
 // Source: https://youtu.be/GjkjJwPUgsA
-const unsigned int highAdjacentPrimes[20] = {
-    158959,
-    158981,
-    158993,
-    159013,
-    159017,
-    159023,
-    159059,
-    159073,
-    159079,
-    159097,
-    159113,
-    159119,
-    159157,
-    159161,
-    159167,
-    159169,
-    159179,
-    159191,
-    159193,
-    159199
-};
 
 int main(int argc, char **argv)
 {
@@ -165,26 +144,7 @@ void generatePicture()
 void generateLinuxPicture()
 {
     std::string inputString = getLinuxSpecificInputString();
-    unsigned int intOfString = intRepresentationOfString(inputString);
-
-    // Use input strng as seed for random number generator
-    std::srand(intOfString);
-
-    // For each decision, assign a decision value
-    // Mod it by how many choices there are, assign the choice based on the result
-    std::vector<int> decisionValues;
-    const int numberOfChoices = 10;
-
-    for(int i = 0; i < 10; ++i) {
-        decisionValues.push_back(rand());
-    }
-
-    std::vector<int>::iterator ptr = decisionValues.begin();
-
-    while(ptr != decisionValues.end()) {
-        std::cout << *ptr << std::endl;
-        ptr = std::next(ptr,1);
-    }
+    generatePictureBySeed(inputString);
 }
 
 std::string getLinuxSpecificInputString()
@@ -232,6 +192,83 @@ std::string getLinuxSpecificInputString()
     total += macStringContent;
 
     return total;
+}
+
+void generatePictureBySeed(std::string seed)
+{
+
+    unsigned int intOfString = intRepresentationOfString(seed);
+
+    // Don't need a hash, since this is open source, it wouldn't make the space of possible results larger
+    // Could add computational complexity of done right. Some way that utilized difficult mathematical operations
+    // Like cosine, factoring, exponential, not just add/multiplying + subtract/division
+    // Square root?
+
+    // Use input strng as seed for random number generator
+    std::srand(intOfString);
+
+    // For each decision, assign a decision value
+    // Mod it by how many choices there are, assign the choice based on the result
+    /*
+        Generator
+            9 type choices
+            All are necessary
+            9 total
+        Modifier
+            6 type choices
+                Curve/Terrace is more than just input->output
+            1 for not present
+            7 total
+        Combiner
+            4 type choices with only 2 inputs
+            All are necessary
+            4 total
+        Transformer
+            4 type choices
+            1 for not present
+            5 total
+        */
+
+    const int numberOfDecisionPoints = 4;
+
+    const int generatorOptions = 9;
+    const int modifierOptions = 7;
+    const int transformerOptions = 5;
+    const int combinerOptions = 4;
+
+
+    std::vector<int> decisionValuesFull;
+    std::vector<int> decisionValuesTruncated;
+
+    for (int i = 0; i < numberOfDecisionPoints; ++i)
+    {
+        decisionValuesFull.push_back(rand());
+        decisionValuesTruncated.push_back(decisionValuesFull.at(i));
+    }
+    
+    // Round 1 gens
+    for(int i = 0; i < 4; ++i) {
+        int generatorType = rand() % generatorOptions;
+    }
+
+    // Round 1 mods/transform
+    for(int i = 0; i < 4; ++i) {
+        int modOrTransformType = rand() % (modifierOptions + transformerOptions);
+    }
+    // Combiner 4 -> 2
+    for(int i = 0; i < 4; ++i) {
+        int combinerType = rand() % combinerOptions;
+    }
+    // Round 2 mods/transform
+    for(int i = 0; i < 4; ++i) {
+        int modOrTransformType = rand() % (modifierOptions + transformerOptions);
+    }
+    // Combiner 2 -> 1
+    int generatorType = rand() % generatorOptions;
+
+    // Round 3 mods/transforms
+    int modOrTransformType = rand() % (modifierOptions + transformerOptions);
+
 }
 
 #endif

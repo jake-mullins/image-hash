@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
 
     std::vector<int>::iterator ptr;
 
-    std::cout << ar.begin() << " " << ar.end() << std::endl;
+    std::cout << *ar.begin() << " " << *ar.end() << std::endl;
 
     for(ptr = ar.begin(); ptr < ar.end(); ++ptr) {
         std::cout << *ptr << std::endl;

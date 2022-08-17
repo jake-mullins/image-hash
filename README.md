@@ -30,3 +30,21 @@ Generates a picture using libnoise in the following configuration
 │ Generator├───► Modifier ├─┘
 │          │   │          │
 └──────────┘   └──────────┘
+
+Generator
+    9 type choices
+    All are necessary
+    9 total
+Modifier
+    6 type choices
+        Curve/Terrace is more than just input->output
+    1 for not present
+    7 total
+Combiner
+    4 type choices with only 2 inputs
+    All are necessary
+    4 total
+Transformer
+    4 type choices
+    1 for not present
+    5 total
