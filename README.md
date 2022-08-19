@@ -48,3 +48,5 @@ Transformer
     4 type choices
     1 for not present
     5 total
+
+All modules derive from noise::module::Module, 

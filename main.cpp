@@ -236,14 +236,6 @@ void generatePictureBySeed(std::string seed)
     const int transformerOptions = 5;
     const int combinerOptions = 4;
 
-    std::vector<int> decisionValuesFull;
-    std::vector<int> decisionValuesTruncated;
-
-    for (int i = 0; i < numberOfDecisionPoints; ++i)
-    {
-        decisionValuesFull.push_back(rand());
-        decisionValuesTruncated.push_back(decisionValuesFull.at(i));
-    }
 
     // Libnoise
     noise::utils::NoiseMap heightMap;
@@ -320,8 +312,8 @@ void generatePictureBySeed(std::string seed)
     }
     case 7:
     {
-        noise::module::Voronoi voronoi;
-        heightMapBuilder.SetSourceModule(voronoi);
+        noise::module::Perlin perlin;
+        heightMapBuilder.SetSourceModule(perlin);
         heightMapBuilder.SetDestNoiseMap(heightMap);
         heightMapBuilder.SetDestSize(512, 512);
         heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
@@ -330,8 +322,8 @@ void generatePictureBySeed(std::string seed)
     }
     case 8:
     {
-        noise::module::Perlin perlin;
-        heightMapBuilder.SetSourceModule(perlin);
+        noise::module::Voronoi voronoi;
+        heightMapBuilder.SetSourceModule(voronoi);
         heightMapBuilder.SetDestNoiseMap(heightMap);
         heightMapBuilder.SetDestSize(512, 512);
         heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
@@ -355,6 +347,9 @@ void generatePictureBySeed(std::string seed)
 
     utils::RendererImage renderer;
     utils::Image image;
+
+    noise::module::Abs abs;
+
     renderer.SetSourceNoiseMap(heightMap);
     renderer.SetDestImage(image);
     renderer.ClearGradient();
