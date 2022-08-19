@@ -25,3 +25,6 @@ August 9th 2022
 
 August 11th 2022
     Instead of using std::hash, I'm going to implement an SHA-256 hash algorithm hopefully using this https://helix.stormhub.org/papers/SHA-256.pdf
+
+August 18th 2022
+    Can I read a file into a modifier module? Can I write the output of a generator and immediately put it into a modifier module

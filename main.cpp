@@ -8,7 +8,7 @@
 #include <sys/utsname.h>
 
 #include <noise/noise.h>
-#include "noise/noiseutils.h"
+#include "noise/noiseutils.cpp"
 
 // Utils
 std::string getOSName();
@@ -236,7 +236,6 @@ void generatePictureBySeed(std::string seed)
     const int transformerOptions = 5;
     const int combinerOptions = 4;
 
-
     std::vector<int> decisionValuesFull;
     std::vector<int> decisionValuesTruncated;
 
@@ -245,22 +244,147 @@ void generatePictureBySeed(std::string seed)
         decisionValuesFull.push_back(rand());
         decisionValuesTruncated.push_back(decisionValuesFull.at(i));
     }
-    
+
+    // Libnoise
+    noise::utils::NoiseMap heightMap;
+    noise::utils::NoiseMapBuilderPlane heightMapBuilder;
+
     // Round 1 gens
-    for(int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
         int generatorType = rand() % generatorOptions;
     }
 
+    // BREAK THIS UP INTO A FUNCTION
+    switch (rand() % generatorOptions)
+    {
+    case 1:
+    {
+        noise::module::Billow billow;
+        heightMapBuilder.SetSourceModule(billow);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 2:
+    {
+        noise::module::Checkerboard checkerboard;
+        heightMapBuilder.SetSourceModule(checkerboard);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 3:
+    {
+        noise::module::Const constant;
+        heightMapBuilder.SetSourceModule(constant);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 4:
+    {
+        noise::module::Cylinders cylinders;
+        heightMapBuilder.SetSourceModule(cylinders);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 5:
+    {
+        noise::module::RidgedMulti ridgedMulti;
+        heightMapBuilder.SetSourceModule(ridgedMulti);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 6:
+    {
+        noise::module::Spheres spheres;
+        heightMapBuilder.SetSourceModule(spheres);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 7:
+    {
+        noise::module::Voronoi voronoi;
+        heightMapBuilder.SetSourceModule(voronoi);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 8:
+    {
+        noise::module::Perlin perlin;
+        heightMapBuilder.SetSourceModule(perlin);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+    case 9:
+    {
+        noise::module::Perlin perlin;
+        heightMapBuilder.SetSourceModule(perlin);
+        heightMapBuilder.SetDestNoiseMap(heightMap);
+        heightMapBuilder.SetDestSize(512, 512);
+        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+        heightMapBuilder.Build();
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    utils::RendererImage renderer;
+    utils::Image image;
+    renderer.SetSourceNoiseMap(heightMap);
+    renderer.SetDestImage(image);
+    renderer.ClearGradient();
+    renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255));   // grass
+    renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255));  // dirt
+    renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
+    renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
+    renderer.EnableLight();
+    renderer.SetLightContrast(3.0);
+    renderer.SetLightBrightness(2.0);
+    renderer.Render();
+
+    utils::WriterBMP writer;
+    writer.SetSourceImage(image);
+    writer.SetDestFilename("tutorial.bmp");
+    writer.WriteDestFile();
+
     // Round 1 mods/transform
-    for(int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
         int modOrTransformType = rand() % (modifierOptions + transformerOptions);
     }
     // Combiner 4 -> 2
-    for(int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
         int combinerType = rand() % combinerOptions;
     }
     // Round 2 mods/transform
-    for(int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 4; ++i)
+    {
         int modOrTransformType = rand() % (modifierOptions + transformerOptions);
     }
     // Combiner 2 -> 1
@@ -268,7 +392,6 @@ void generatePictureBySeed(std::string seed)
 
     // Round 3 mods/transforms
     int modOrTransformType = rand() % (modifierOptions + transformerOptions);
-
 }
 
 #endif
