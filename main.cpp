@@ -28,6 +28,9 @@ std::string outputPath = "output.bmp";
 void generatePicture();
 void generateLinuxPicture();
 void generatePictureBySeed(std::string seed);
+noise::module::Module* getGenerator(int choice);
+noise::module::Module* getModifier(int choice);
+noise::module::Module* getCombiner(int choice);
 
 // High adjacent primes can be used for easy predictable decision making
 // Source: https://youtu.be/GjkjJwPUgsA
@@ -236,157 +239,97 @@ void generatePictureBySeed(std::string seed)
     const int transformerOptions = 5;
     const int combinerOptions = 4;
 
-
     // Libnoise
     noise::utils::NoiseMap heightMap;
     noise::utils::NoiseMapBuilderPlane heightMapBuilder;
 
-    // Round 1 gens
-    for (int i = 0; i < 4; ++i)
-    {
-        int generatorType = rand() % generatorOptions;
-    }
+    const noise::module::Module* gen1 = getGenerator(rand());
+    noise::module::Module* mod1 = getModifier(rand());
+    mod1->SetSourceModule(0, *(gen1));
 
-    // BREAK THIS UP INTO A FUNCTION
-    switch (rand() % generatorOptions)
-    {
-    case 1:
-    {
-        noise::module::Billow billow;
-        heightMapBuilder.SetSourceModule(billow);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 2:
-    {
-        noise::module::Checkerboard checkerboard;
-        heightMapBuilder.SetSourceModule(checkerboard);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 3:
-    {
-        noise::module::Const constant;
-        heightMapBuilder.SetSourceModule(constant);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 4:
-    {
-        noise::module::Cylinders cylinders;
-        heightMapBuilder.SetSourceModule(cylinders);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 5:
-    {
-        noise::module::RidgedMulti ridgedMulti;
-        heightMapBuilder.SetSourceModule(ridgedMulti);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 6:
-    {
-        noise::module::Spheres spheres;
-        heightMapBuilder.SetSourceModule(spheres);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 7:
-    {
-        noise::module::Perlin perlin;
-        heightMapBuilder.SetSourceModule(perlin);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 8:
-    {
-        noise::module::Voronoi voronoi;
-        heightMapBuilder.SetSourceModule(voronoi);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
-    case 9:
-    {
-        noise::module::Perlin perlin;
-        heightMapBuilder.SetSourceModule(perlin);
-        heightMapBuilder.SetDestNoiseMap(heightMap);
-        heightMapBuilder.SetDestSize(512, 512);
-        heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
-        heightMapBuilder.Build();
-        break;
-    }
+    const noise::module::Module* gen2 = getGenerator(rand());
+    noise::module::Module* mod2 = getModifier(rand());
+    mod2->SetSourceModule(0, *(gen2));
 
-    default:
-        break;
-    }
+
 
     utils::RendererImage renderer;
     utils::Image image;
 
-    noise::module::Abs abs;
-
-    renderer.SetSourceNoiseMap(heightMap);
-    renderer.SetDestImage(image);
-    renderer.ClearGradient();
-    renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255));   // grass
-    renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255));  // dirt
-    renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
-    renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
-    renderer.EnableLight();
-    renderer.SetLightContrast(3.0);
-    renderer.SetLightBrightness(2.0);
-    renderer.Render();
-
-    utils::WriterBMP writer;
-    writer.SetSourceImage(image);
-    writer.SetDestFilename("tutorial.bmp");
-    writer.WriteDestFile();
-
     // Round 1 mods/transform
-    for (int i = 0; i < 4; ++i)
-    {
-        int modOrTransformType = rand() % (modifierOptions + transformerOptions);
-    }
     // Combiner 4 -> 2
-    for (int i = 0; i < 4; ++i)
-    {
-        int combinerType = rand() % combinerOptions;
-    }
     // Round 2 mods/transform
-    for (int i = 0; i < 4; ++i)
-    {
-        int modOrTransformType = rand() % (modifierOptions + transformerOptions);
-    }
     // Combiner 2 -> 1
-    int generatorType = rand() % generatorOptions;
-
     // Round 3 mods/transforms
-    int modOrTransformType = rand() % (modifierOptions + transformerOptions);
+}
+
+noise::module::Mosdule* getGenerator(int choice) {
+    switch (choice % 9) {
+    case (0):
+        return new noise::module::Checkerboard();
+    case (1):
+        return new noise::module::Const();
+    case (2):
+        return new noise::module::Cylinders();
+    case (3):
+        return new noise::module::RidgedMulti();
+    case (4):
+        return new noise::module::Spheres();
+    case (5):
+        return new noise::module::Perlin();
+    case (6):
+        return new noise::module::Voronoi();
+    case (7):
+        return new noise::module::Perlin();
+    default:
+        std::cout << "YOU SHOULD NOT BE HERE" << std::endl;
+        return new noise::module::Perlin();
+    // WHAT IS THE 8th CASE I COULD'VE SWORN IT WAS THERE                                       
+    }
+}
+
+noise::module::Module* getModifier(int choice) {
+    switch(choice % 10) {
+        case(0):
+            return new noise::module::Turbulence();
+        case(1):
+            return new noise::module::Invert();
+        case(2):
+            return new noise::module::RotatePoint();
+        case(3):
+            return new noise::module::ScaleBias();
+        case(4):
+            return new noise::module::TranslatePoint();
+        case(5):
+            return new noise::module::Abs();
+        case(6):
+            return new noise::module::Clamp();
+        case(7):
+            return new noise::module::Exponent();
+        case(8):
+            return NULL;
+        default:
+            std::cout << "BRUTAL MISCALCULATION ON MY (JAKE) PART" << std::endl;
+            return new noise::module::Perlin();
+    }
+}
+
+noise::module::Module* getCombiner(int choice) {
+    switch(choice % 4) {
+        case (0):
+            return new noise::module::Add();
+        case (1):
+            return new noise::module::Min();
+        case (2):
+            return new noise::module::Max();
+        case (3):
+            return new noise::module::Multiply();
+        case (4):
+            return new noise::module::Power();
+        default:
+            std::cout << "You're not supposed to be here" << std::endl;
+            return new noise::module::Max(); 
+    }
 }
 
 #endif

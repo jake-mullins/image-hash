@@ -35,11 +35,6 @@ Generator
     9 type choices
     All are necessary
     9 total
-Modifier
-    6 type choices
-        Curve/Terrace is more than just input->output
-    1 for not present
-    7 total
 Combiner
     4 type choices with only 2 inputs
     All are necessary
@@ -48,5 +43,23 @@ Transformer
     4 type choices
     1 for not present
     5 total
+Modifier
+    6 type choices
+        Curve/Terrace is more than just input->output
+    1 for not present
+    7 total
+
+TransformerModifier list
+    Turbulence
+    Invert Input
+    Rotate
+    Scale
+    Transform
+    Absolute
+    Clamp
+    Exponent
+    ScaleBias
+    Cache?
+
 
 All modules derive from noise::module::Module, 
