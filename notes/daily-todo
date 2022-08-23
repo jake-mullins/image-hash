@@ -28,3 +28,13 @@ August 11th 2022
 
 August 18th 2022
     Can I read a file into a modifier module? Can I write the output of a generator and immediately put it into a modifier module
+
+August 22th 2022
+    It pays off to learn about OOP. I'm very glad that this library was designed well and simply. I've been able to use the noise::utils::Module abstract class to my benefit
+    قول لامي ما بتكيش
+    يال منفي
+    ولدك ربي ما يخليش
+    يال منفي
+    I've discovered that even not modifiying any parameters and just having colors is probably enough to get the point across. I'm gonna start working on the --input flag and probably an output parameter
+
+    

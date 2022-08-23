@@ -61,5 +61,14 @@ TransformerModifier list
     ScaleBias
     Cache?
 
+Combiner list
+    Add
+    Max
+    Min
+    Multiply
+    Power
 
-All modules derive from noise::module::Module, 
+
+All modules derive from abstract noise::module::Module, so I can use it as a placeholder. OOP is kinda sick
+
+I oughtta take out the const generator, 'tis kinda cringe, but it still works effectively

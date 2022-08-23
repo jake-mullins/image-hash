@@ -1,23 +1,23 @@
 #include <iostream>
 
-#include <noise/noise.h>
-#include "noise/noiseutils.cpp"
+int main(int argc, char* argv[]) {
+    srand(0);
 
-noise::module::Module* getGenerator(int choice) {
-    switch(choice) {
-        case(1):
-            return new noise::module::Perlin();
-        case(2):
-            return new noise::module::Const();
-        default:
-            return new noise::module::Voronoi();
+    const int lowEndGradient = -1;
+    const int highEndGradient = 1;
+
+    float highest = -1;
+    float lowest = 1;
+    for(int i = 0; i < 100000; ++i) {
+        float curr = lowEndGradient + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(highEndGradient-lowEndGradient)));
+        if(curr > highest) {
+            highest = curr;
+        }
+        if(curr < lowest) { 
+            lowest = curr;
+        }
     }
-}
 
-int main(int argc, char** argv) {
-    noise::module::Module* perlin = new noise::module::Perlin();
-    noise::module::Module* abs = new noise::module::Abs();
-    (*abs).SetSourceModule(perlin);
-
-    return 0;
+    std::cout << "Highest " << highest << std::endl;
+    std::cout << "Lowest " << lowest << std::endl;
 }

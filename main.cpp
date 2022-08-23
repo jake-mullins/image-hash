@@ -13,6 +13,7 @@
 // Utils
 std::string getOSName();
 unsigned int intRepresentationOfString(std::string input);
+double getRandomDoubleInRange(float lowerEnd, float upperEnd);
 
 // Linux stuff (Developed on Ubuntu)
 std::string getLinuxSpecificInputString();
@@ -28,9 +29,9 @@ std::string outputPath = "output.bmp";
 void generatePicture();
 void generateLinuxPicture();
 void generatePictureBySeed(std::string seed);
-noise::module::Module* getGenerator(int choice);
-noise::module::Module* getModifier(int choice);
-noise::module::Module* getCombiner(int choice);
+noise::module::Module *getGenerator(int choice);
+noise::module::Module *getModifier(int choice);
+noise::module::Module *getCombiner(int choice);
 
 // High adjacent primes can be used for easy predictable decision making
 // Source: https://youtu.be/GjkjJwPUgsA
@@ -55,6 +56,7 @@ int main(int argc, char **argv)
     {
         std::cout << "Generating a bitmap (hopefully) unique to your computer..." << std::endl;
         generatePicture();
+        std::cout << "Done." << std::endl;
         return 0;
     }
 
@@ -69,6 +71,15 @@ int main(int argc, char **argv)
     // Generate map using command line input
     if (args.at(0) == "--input" && args.size() == 2)
     {
+        std::cout << "Generating a bitmap (hopefully) unique to the input string..." << std::endl;
+        generatePictureBySeed(args.at(1));
+        std::cout << "Done." << std::endl;
+        return 0;
+    }
+
+    // Generate map using command line input as custom output file name
+    if (args.at(0) == "--input" && args.size() == 3) {
+        std::cout << "WORK IN PROGRESS" << std::endl;
         return 0;
     }
 
@@ -105,6 +116,10 @@ unsigned int intRepresentationOfString(std::string input)
     }
 
     return runningTotal;
+}
+
+double getRandomDoubleInRange(float lowerEnd, float upperEnd) {
+    return lowerEnd + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(upperEnd - lowerEnd)));
 }
 
 // UI Stuff
@@ -210,6 +225,8 @@ void generatePictureBySeed(std::string seed)
     // Use input strng as seed for random number generator
     std::srand(intOfString);
 
+    std::cout << rand() << std::endl;
+
     // For each decision, assign a decision value
     // Mod it by how many choices there are, assign the choice based on the result
     /*
@@ -232,39 +249,92 @@ void generatePictureBySeed(std::string seed)
             5 total
         */
 
-    const int numberOfDecisionPoints = 4;
+    const noise::module::Module *gen1 = getGenerator(rand());
+    noise::module::Module *mod1 = getModifier(rand());
+    mod1->SetSourceModule(0, *(gen1));
 
-    const int generatorOptions = 9;
-    const int modifierOptions = 7;
-    const int transformerOptions = 5;
-    const int combinerOptions = 4;
+    const noise::module::Module *gen2 = getGenerator(rand());
+    noise::module::Module *mod2 = getModifier(rand());
+    mod2->SetSourceModule(0, *(gen2));
 
-    // Libnoise
+    noise::module::Module *combiner1 = getCombiner(rand());
+    combiner1->SetSourceModule(0, (*mod1));
+    combiner1->SetSourceModule(1, (*mod2));
+
+    const noise::module::Module* gen3 = getGenerator(rand());
+    noise::module::Module* mod3 = getModifier(rand());
+    mod3->SetSourceModule(0, *(gen3));
+
+    const noise::module::Module* gen4 = getGenerator(rand());
+    noise::module::Module* mod4 = getModifier(rand());
+    mod4->SetSourceModule(0, *(gen4));
+
+    noise::module::Module* combiner2 = getCombiner(rand());
+    combiner2->SetSourceModule(0,(*mod3));
+    combiner2->SetSourceModule(1,(*mod4));
+
+    noise::module::Module* mod5 = getModifier(rand());
+    mod5->SetSourceModule(0, *(combiner1));
+
+    noise::module::Module* mod6 = getModifier(rand());
+    mod6->SetSourceModule(0, *(combiner2));
+
+    noise::module::Module* combiner3 = getCombiner(rand());
+    combiner3->SetSourceModule(0, (*mod1));
+    combiner3->SetSourceModule(1, (*mod2));
+
+    // Break rendering into it's own function
+    // void renderMap(noise::module::Module* module);
+
     noise::utils::NoiseMap heightMap;
     noise::utils::NoiseMapBuilderPlane heightMapBuilder;
 
-    const noise::module::Module* gen1 = getGenerator(rand());
-    noise::module::Module* mod1 = getModifier(rand());
-    mod1->SetSourceModule(0, *(gen1));
+    heightMapBuilder.SetSourceModule((*combiner3));
+    heightMapBuilder.SetDestNoiseMap(heightMap);
+    heightMapBuilder.SetDestSize(512, 512);
+    heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+    heightMapBuilder.Build();
 
-    const noise::module::Module* gen2 = getGenerator(rand());
-    noise::module::Module* mod2 = getModifier(rand());
-    mod2->SetSourceModule(0, *(gen2));
+    noise::utils::RendererImage renderer;
+    noise::utils::Image image;
 
+    renderer.SetSourceNoiseMap(heightMap);
+    renderer.SetDestImage(image);
+    renderer.ClearGradient();
+    renderer.EnableLight();
 
+    renderer.AddGradientPoint(-1.00, noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
+    // For a random number of times (2-6)
+        // Add a new gradient point
+    for(int i = 0; i < (rand() % 5); ++i) {
+        renderer.AddGradientPoint(getRandomDoubleInRange(-1.0, 1.0), noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
+    }
 
-    utils::RendererImage renderer;
-    utils::Image image;
+    renderer.AddGradientPoint(1.00, noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
+
+    renderer.SetLightContrast(3.0);
+    renderer.SetLightBrightness(2.0);
+    renderer.Render();
+
+    noise::utils::WriterBMP writer;
+    writer.SetSourceImage(image);
+    writer.SetDestFilename("tutorial3.bmp");
+    writer.WriteDestFile();
 
     // Round 1 mods/transform
     // Combiner 4 -> 2
     // Round 2 mods/transform
     // Combiner 2 -> 1
     // Round 3 mods/transforms
+
+
+    // Memory management
 }
 
-noise::module::Mosdule* getGenerator(int choice) {
-    switch (choice % 9) {
+noise::module::Module *getGenerator(int choice)
+{
+    switch (choice % 9)
+    {
     case (0):
         return new noise::module::Checkerboard();
     case (1):
@@ -282,53 +352,57 @@ noise::module::Mosdule* getGenerator(int choice) {
     case (7):
         return new noise::module::Perlin();
     default:
-        std::cout << "YOU SHOULD NOT BE HERE" << std::endl;
+        std::cout << "YOU SHOULD NOT BE HERE Generator" << std::endl;
         return new noise::module::Perlin();
-    // WHAT IS THE 8th CASE I COULD'VE SWORN IT WAS THERE                                       
+        // WHAT IS THE 8th CASE I COULD'VE SWORN IT WAS THERE
     }
 }
 
-noise::module::Module* getModifier(int choice) {
-    switch(choice % 10) {
-        case(0):
-            return new noise::module::Turbulence();
-        case(1):
-            return new noise::module::Invert();
-        case(2):
-            return new noise::module::RotatePoint();
-        case(3):
-            return new noise::module::ScaleBias();
-        case(4):
-            return new noise::module::TranslatePoint();
-        case(5):
-            return new noise::module::Abs();
-        case(6):
-            return new noise::module::Clamp();
-        case(7):
-            return new noise::module::Exponent();
-        case(8):
-            return NULL;
-        default:
-            std::cout << "BRUTAL MISCALCULATION ON MY (JAKE) PART" << std::endl;
-            return new noise::module::Perlin();
+noise::module::Module *getModifier(int choice)
+{
+    switch (choice % 10)
+    {
+    case (0):
+        return new noise::module::Turbulence();
+    case (1):
+        return new noise::module::Invert();
+    case (2):
+        return new noise::module::RotatePoint();
+    case (3):
+        return new noise::module::ScaleBias();
+    case (4):
+        return new noise::module::TranslatePoint();
+    case (5):
+        return new noise::module::Abs();
+    case (6):
+        return new noise::module::Clamp();
+    case (7):
+        return new noise::module::Exponent();
+    case (8):
+        return new noise::module::Abs();
+    default:
+        std::cout << "BRUTAL MISCALCULATION ON MY (JAKE) PART modifier" << std::endl;
+        return new noise::module::Abs();
     }
 }
 
-noise::module::Module* getCombiner(int choice) {
-    switch(choice % 4) {
-        case (0):
-            return new noise::module::Add();
-        case (1):
-            return new noise::module::Min();
-        case (2):
-            return new noise::module::Max();
-        case (3):
-            return new noise::module::Multiply();
-        case (4):
-            return new noise::module::Power();
-        default:
-            std::cout << "You're not supposed to be here" << std::endl;
-            return new noise::module::Max(); 
+noise::module::Module *getCombiner(int choice)
+{
+    switch (choice % 4)
+    {
+    case (0):
+        return new noise::module::Add();
+    case (1):
+        return new noise::module::Min();
+    case (2):
+        return new noise::module::Max();
+    case (3):
+        return new noise::module::Multiply();
+    case (4):
+        return new noise::module::Power();
+    default:
+        std::cout << "You're not supposed to be here Combiner" << std::endl;
+        return new noise::module::Max();
     }
 }
 
