@@ -95,3 +95,9 @@ How do I do
     σ1(X) = RotR(X, 17) ⊕ RotR(X, 19) ⊕ ShR(X, 10)
 
     In C++?
+
+Could make tree generation function recursive
+See what can be done about const generator, 'tis cringe, but it works pretty well when mixed with stuff. Tweak some parameters
+Start tweaking parameters with random
+Set up output file so I can make a batch script with these things
+Where is the turbulence? Do I need parameters to vibe?

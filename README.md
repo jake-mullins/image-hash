@@ -72,3 +72,5 @@ Combiner list
 All modules derive from abstract noise::module::Module, so I can use it as a placeholder. OOP is kinda sick
 
 I oughtta take out the const generator, 'tis kinda cringe, but it still works effectively
+
+Probably could make a recursive function for the generators
