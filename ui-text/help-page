@@ -4,3 +4,6 @@ fingerprint-generator
         
     --input <input-string>
         Generate a random perlin-noise image using the input-string as a seed
+
+    --input <input-string> <output-name>
+        Outputs a random image using the input-string as a seed into the output file

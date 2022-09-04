@@ -29,6 +29,7 @@ std::string outputPath = "output.bmp";
 void generatePicture();
 void generateLinuxPicture();
 void generatePictureBySeed(std::string seed);
+void generatePictureBySeed(std::string seed, std::string outputFileName);
 noise::module::Module *getGenerator(int choice);
 noise::module::Module *getModifier(int choice);
 noise::module::Module *getCombiner(int choice);
@@ -79,7 +80,7 @@ int main(int argc, char **argv)
 
     // Generate map using command line input as custom output file name
     if (args.at(0) == "--input" && args.size() == 3) {
-        std::cout << "WORK IN PROGRESS" << std::endl;
+        generatePictureBySeed(args.at(1), args.at(2));
         return 0;
     }
 
@@ -331,12 +332,130 @@ void generatePictureBySeed(std::string seed)
     // Memory management
 }
 
+void generatePictureBySeed(std::string seed, std::string outputFileName) {
+    unsigned int intOfString = intRepresentationOfString(seed);
+
+    // Don't need a hash, since this is open source, it wouldn't make the space of possible results larger
+    // Could add computational complexity of done right. Some way that utilized difficult mathematical operations
+    // Like cosine, factoring, exponential, not just add/multiplying + subtract/division
+    // Square root?
+
+    // Use input strng as seed for random number generator
+    std::srand(intOfString);
+
+    std::cout << rand() << std::endl;
+
+    // For each decision, assign a decision value
+    // Mod it by how many choices there are, assign the choice based on the result
+    /*
+        Generator
+            9 type choices
+            All are necessary
+            9 total
+        Modifier
+            6 type choices
+                Curve/Terrace is more than just input->output
+            1 for not present
+            7 total
+        Combiner
+            4 type choices with only 2 inputs
+            All are necessary
+            4 total
+        Transformer
+            4 type choices
+            1 for not present
+            5 total
+        */
+
+    const noise::module::Module *gen1 = getGenerator(rand());
+    noise::module::Module *mod1 = getModifier(rand());
+    mod1->SetSourceModule(0, *(gen1));
+
+    const noise::module::Module *gen2 = getGenerator(rand());
+    noise::module::Module *mod2 = getModifier(rand());
+    mod2->SetSourceModule(0, *(gen2));
+
+    noise::module::Module *combiner1 = getCombiner(rand());
+    combiner1->SetSourceModule(0, (*mod1));
+    combiner1->SetSourceModule(1, (*mod2));
+
+    const noise::module::Module* gen3 = getGenerator(rand());
+    noise::module::Module* mod3 = getModifier(rand());
+    mod3->SetSourceModule(0, *(gen3));
+
+    const noise::module::Module* gen4 = getGenerator(rand());
+    noise::module::Module* mod4 = getModifier(rand());
+    mod4->SetSourceModule(0, *(gen4));
+
+    noise::module::Module* combiner2 = getCombiner(rand());
+    combiner2->SetSourceModule(0,(*mod3));
+    combiner2->SetSourceModule(1,(*mod4));
+
+    noise::module::Module* mod5 = getModifier(rand());
+    mod5->SetSourceModule(0, *(combiner1));
+
+    noise::module::Module* mod6 = getModifier(rand());
+    mod6->SetSourceModule(0, *(combiner2));
+
+    noise::module::Module* combiner3 = getCombiner(rand());
+    combiner3->SetSourceModule(0, (*mod1));
+    combiner3->SetSourceModule(1, (*mod2));
+
+    // Break rendering into it's own function
+    // void renderMap(noise::module::Module* module);
+
+    noise::utils::NoiseMap heightMap;
+    noise::utils::NoiseMapBuilderPlane heightMapBuilder;
+
+    heightMapBuilder.SetSourceModule((*combiner3));
+    heightMapBuilder.SetDestNoiseMap(heightMap);
+    heightMapBuilder.SetDestSize(512, 512);
+    heightMapBuilder.SetBounds(0.0, 5.0, 0.0, 5.0);
+    heightMapBuilder.Build();
+
+    noise::utils::RendererImage renderer;
+    noise::utils::Image image;
+
+    renderer.SetSourceNoiseMap(heightMap);
+    renderer.SetDestImage(image);
+    renderer.ClearGradient();
+    renderer.EnableLight();
+
+    renderer.AddGradientPoint(-1.00, noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
+    // For a random number of times (2-6)
+        // Add a new gradient point
+    for(int i = 0; i < (rand() % 5); ++i) {
+        renderer.AddGradientPoint(getRandomDoubleInRange(-1.0, 1.0), noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
+    }
+
+    renderer.AddGradientPoint(1.00, noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
+
+    renderer.SetLightContrast(3.0);
+    renderer.SetLightBrightness(2.0);
+    renderer.Render();
+
+    noise::utils::WriterBMP writer;
+    writer.SetSourceImage(image);
+    writer.SetDestFilename(outputFileName + ".bmp");
+    writer.WriteDestFile();
+
+    // Round 1 mods/transform
+    // Combiner 4 -> 2
+    // Round 2 mods/transform
+    // Combiner 2 -> 1
+    // Round 3 mods/transforms
+
+
+    // Memory management?
+}
+
 noise::module::Module *getGenerator(int choice)
 {
     switch (choice % 9)
     {
     case (0):
-        return new noise::module::Checkerboard();
+        noise::module::Checkerboard checkerboard = new noise::module::Checkerboard();
+        return checkerboard;
     case (1):
         return new noise::module::Const();
     case (2):
@@ -351,6 +470,8 @@ noise::module::Module *getGenerator(int choice)
         return new noise::module::Voronoi();
     case (7):
         return new noise::module::Perlin();
+    case(8):
+        return new noise::module::Billow();
     default:
         std::cout << "YOU SHOULD NOT BE HERE Generator" << std::endl;
         return new noise::module::Perlin();
