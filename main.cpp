@@ -226,8 +226,6 @@ void generatePictureBySeed(std::string seed)
     // Use input strng as seed for random number generator
     std::srand(intOfString);
 
-    std::cout << rand() << std::endl;
-
     // For each decision, assign a decision value
     // Mod it by how many choices there are, assign the choice based on the result
     /*
@@ -454,8 +452,7 @@ noise::module::Module *getGenerator(int choice)
     switch (choice % 9)
     {
     case (0):
-        noise::module::Checkerboard checkerboard = new noise::module::Checkerboard();
-        return checkerboard;
+        return new noise::module::Checkerboard();
     case (1):
         return new noise::module::Const();
     case (2):
