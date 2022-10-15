@@ -6,7 +6,8 @@ The same procedure that generates a picture based on information from a computer
 This started out as a way for me (Jake Mullins) to mess around with procedural generation in a low-level way with the libnoise library. I also did some practice with following specifications by programmatically creating a bitmap
 
 To compile, follow these steps
-    ```cd
+    ```shell 
+    cd
     git clone https://github.com/qknight/libnoise.git
     cd libnoise
     mkdir build
