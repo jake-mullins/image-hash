@@ -5,6 +5,18 @@ The same procedure that generates a picture based on information from a computer
 
 This started out as a way for me (Jake Mullins) to mess around with procedural generation in a low-level way with the libnoise library. I also did some practice with following specifications by programmatically creating a bitmap
 
+To compile, follow these steps
+    ```cd
+    git clone https://github.com/qknight/libnoise.git
+    cd libnoise
+    mkdir build
+    cd build
+    cmake ..
+    make
+    make install (possible optional I don't know)
+    g++ main.cpp -o fingerprint-generator -I/usr/local/include -L/usr/local/lib -lnoise```
+
+
 Generates a picture using libnoise in the following configuration
 The below diagram formats correctly when copied into VSCode
 ┌──────────┐   ┌──────────┐

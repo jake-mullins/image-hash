@@ -7,8 +7,7 @@
 #include <cmath>
 #include <sys/utsname.h>
 
-#include <noise/noise.h>
-#include "noise/noiseutils.cpp"
+#include "libnoise/noise.h"
 
 // Utils
 std::string getOSName();
@@ -317,7 +316,7 @@ void generatePictureBySeed(std::string seed)
 
     noise::utils::WriterBMP writer;
     writer.SetSourceImage(image);
-    writer.SetDestFilename("tutorial3.bmp");
+    writer.SetDestFilename("fingerprint.bmp");
     writer.WriteDestFile();
 
     // Round 1 mods/transform
