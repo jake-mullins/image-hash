@@ -15,7 +15,7 @@ mkdir build
 cd build
 cmake ..
 make
-make install
+sudo make install
 g++ main.cpp -o fingerprint-generator -I/usr/local/include -L/usr/local/lib -lnoise
 ```
 
