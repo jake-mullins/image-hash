@@ -16,7 +16,7 @@ cd build
 cmake ..
 make
 sudo make install
-cd ~/fingerprint-generator
+cd ~/fingerprint-generator-cpp
 g++ main.cpp -o fingerprint-generator -I/usr/local/include -L/usr/local/lib -lnoise
 ```
 
