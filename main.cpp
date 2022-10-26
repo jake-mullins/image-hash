@@ -137,7 +137,9 @@ void printFullHelp()
     while (t)
     {
         std::getline(t, line);
+#ifdef DEBUG
         std::cout << line << std::endl;
+#endif
     }
     t.close();
 }
@@ -339,8 +341,9 @@ void generatePictureBySeed(std::string seed, std::string outputFileName) {
 
     // Use input strng as seed for random number generator
     std::srand(intOfString);
-
+#ifdef DEBUG
     std::cout << rand() << std::endl;
+#endif
 
     // For each decision, assign a decision value
     // Mod it by how many choices there are, assign the choice based on the result
