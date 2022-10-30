@@ -41,6 +41,8 @@ noise::module::Module *getCombiner(int choice);
 
 int main(int argc, char **argv)
 {
+    std::cout << "hello" << std::endl;
+
     // Parse Args
     std::vector<std::string> args;
     for (int i = 1; i < argc; i++)
@@ -58,7 +60,7 @@ int main(int argc, char **argv)
     // Generate map using hardware information
     if (args.at(0) == "--local")
     {
-        std::cout << "Generating a bitmap (hopefully) unique to your computer..." << std::endl;
+        std::cout << "Generating a bitmap unique to your computer..." << std::endl;
         generatePicture();
         std::cout << "Done." << std::endl;
         return 0;
@@ -75,7 +77,7 @@ int main(int argc, char **argv)
     // Generate map using command line input
     if (args.at(0) == "--input" && args.size() == 2)
     {
-        std::cout << "Generating a bitmap unique to the input string..." << std::endl;
+        std::cout << "Generating a bitmap using " << args.at(1) << " as input" << std::endl;
         generatePictureBySeed(args.at(1));
         std::cout << "Done." << std::endl;
         return 0;
@@ -84,6 +86,7 @@ int main(int argc, char **argv)
     // Generate map using command line input as custom output file name
     if (args.at(0) == "--input" && args.size() == 3)
     {
+        std::cout << "Generating a bitmap called " << args.at(2) << " using " << args.at(1) << "as input" << std::endl;
         generatePictureBySeed(args.at(1), args.at(2));
         return 0;
     }
@@ -98,12 +101,14 @@ int main(int argc, char **argv)
     // Generate map using file contents as seed
     if (args.at(0) == "--file" && args.size() == 2)
     {
+        std::cout << "Generating a bitmap using file " << args.at(1) << " as input" << std::endl;
         generatePictureByFile(args.at(1));
     }
 
     // Generate map using file contents as seed and output to a file
     if (args.at(0) == "--file" && args.size() == 3)
     {
+        std::cout << "Generating a bitmap called " << args.at(2) << " using file " << args.at(1) << " as input" << std::endl;
         generatePictureByFile(args.at(1), args.at(2));
     }
 
@@ -162,9 +167,7 @@ void printFullHelp()
     while (t)
     {
         std::getline(t, line);
-#ifdef DEBUG
         std::cout << line << std::endl;
-#endif
     }
     t.close();
 }
