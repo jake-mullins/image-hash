@@ -2,8 +2,15 @@ fingerprint-generator
     --local
         Generate a random perlin-noise image using information that can be gleaned from your machine by this program as a seed
         
-    --input <input-string>
-        Generate a random perlin-noise image using the input-string as a seed
+    --input <string>
+        Creates a random image <string> as seed
 
-    --input <input-string> <output-name>
-        Outputs a random image using the input-string as a seed into the output file
+    --input <string> <output-name>
+        Creates a random image called <name> using <string> as seed
+
+    --file <file>
+        Creates a random image using contents of <file> as seed
+
+
+    --file <file> <name>
+        Creates a random image called <name> using contents of <file> as seed

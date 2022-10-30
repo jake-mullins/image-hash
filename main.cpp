@@ -29,6 +29,9 @@ void generatePicture();
 void generateLinuxPicture();
 void generatePictureBySeed(std::string seed);
 void generatePictureBySeed(std::string seed, std::string outputFileName);
+void generatePictureByFile(std::string filePath);
+void generatePictureByFile(std::string filePath, std::string outputFileName);
+
 noise::module::Module *getGenerator(int choice);
 noise::module::Module *getModifier(int choice);
 noise::module::Module *getCombiner(int choice);
@@ -38,6 +41,7 @@ noise::module::Module *getCombiner(int choice);
 
 int main(int argc, char **argv)
 {
+    // Parse Args
     std::vector<std::string> args;
     for (int i = 1; i < argc; i++)
     {
@@ -71,16 +75,36 @@ int main(int argc, char **argv)
     // Generate map using command line input
     if (args.at(0) == "--input" && args.size() == 2)
     {
-        std::cout << "Generating a bitmap (hopefully) unique to the input string..." << std::endl;
+        std::cout << "Generating a bitmap unique to the input string..." << std::endl;
         generatePictureBySeed(args.at(1));
         std::cout << "Done." << std::endl;
         return 0;
     }
 
     // Generate map using command line input as custom output file name
-    if (args.at(0) == "--input" && args.size() == 3) {
+    if (args.at(0) == "--input" && args.size() == 3)
+    {
         generatePictureBySeed(args.at(1), args.at(2));
         return 0;
+    }
+
+    // Generate map using file contents as seed
+    if (args.at(0) == "--file" && args.size() == 1)
+    {
+        printError("No input file given");
+        printFullHelp();
+    }
+
+    // Generate map using file contents as seed
+    if (args.at(0) == "--file" && args.size() == 2)
+    {
+        generatePictureByFile(args.at(1));
+    }
+
+    // Generate map using file contents as seed and output to a file
+    if (args.at(0) == "--file" && args.size() == 3)
+    {
+        generatePictureByFile(args.at(1), args.at(2));
     }
 
     return 0;
@@ -118,8 +142,9 @@ unsigned int intRepresentationOfString(std::string input)
     return runningTotal;
 }
 
-double getRandomDoubleInRange(float lowerEnd, float upperEnd) {
-    return lowerEnd + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(upperEnd - lowerEnd)));
+double getRandomDoubleInRange(float lowerEnd, float upperEnd)
+{
+    return lowerEnd + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (upperEnd - lowerEnd)));
 }
 
 // UI Stuff
@@ -261,25 +286,25 @@ void generatePictureBySeed(std::string seed)
     combiner1->SetSourceModule(0, (*mod1));
     combiner1->SetSourceModule(1, (*mod2));
 
-    const noise::module::Module* gen3 = getGenerator(rand());
-    noise::module::Module* mod3 = getModifier(rand());
+    const noise::module::Module *gen3 = getGenerator(rand());
+    noise::module::Module *mod3 = getModifier(rand());
     mod3->SetSourceModule(0, *(gen3));
 
-    const noise::module::Module* gen4 = getGenerator(rand());
-    noise::module::Module* mod4 = getModifier(rand());
+    const noise::module::Module *gen4 = getGenerator(rand());
+    noise::module::Module *mod4 = getModifier(rand());
     mod4->SetSourceModule(0, *(gen4));
 
-    noise::module::Module* combiner2 = getCombiner(rand());
-    combiner2->SetSourceModule(0,(*mod3));
-    combiner2->SetSourceModule(1,(*mod4));
+    noise::module::Module *combiner2 = getCombiner(rand());
+    combiner2->SetSourceModule(0, (*mod3));
+    combiner2->SetSourceModule(1, (*mod4));
 
-    noise::module::Module* mod5 = getModifier(rand());
+    noise::module::Module *mod5 = getModifier(rand());
     mod5->SetSourceModule(0, *(combiner1));
 
-    noise::module::Module* mod6 = getModifier(rand());
+    noise::module::Module *mod6 = getModifier(rand());
     mod6->SetSourceModule(0, *(combiner2));
 
-    noise::module::Module* combiner3 = getCombiner(rand());
+    noise::module::Module *combiner3 = getCombiner(rand());
     combiner3->SetSourceModule(0, (*mod1));
     combiner3->SetSourceModule(1, (*mod2));
 
@@ -305,8 +330,9 @@ void generatePictureBySeed(std::string seed)
 
     renderer.AddGradientPoint(-1.00, noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
     // For a random number of times (2-6)
-        // Add a new gradient point
-    for(int i = 0; i < (rand() % 5); ++i) {
+    // Add a new gradient point
+    for (int i = 0; i < (rand() % 5); ++i)
+    {
         renderer.AddGradientPoint(getRandomDoubleInRange(-1.0, 1.0), noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
     }
 
@@ -327,11 +353,11 @@ void generatePictureBySeed(std::string seed)
     // Combiner 2 -> 1
     // Round 3 mods/transforms
 
-
     // Memory management
 }
 
-void generatePictureBySeed(std::string seed, std::string outputFileName) {
+void generatePictureBySeed(std::string seed, std::string outputFileName)
+{
     unsigned int intOfString = intRepresentationOfString(seed);
 
     // Don't need a hash, since this is open source, it wouldn't make the space of possible results larger
@@ -379,25 +405,25 @@ void generatePictureBySeed(std::string seed, std::string outputFileName) {
     combiner1->SetSourceModule(0, (*mod1));
     combiner1->SetSourceModule(1, (*mod2));
 
-    const noise::module::Module* gen3 = getGenerator(rand());
-    noise::module::Module* mod3 = getModifier(rand());
+    const noise::module::Module *gen3 = getGenerator(rand());
+    noise::module::Module *mod3 = getModifier(rand());
     mod3->SetSourceModule(0, *(gen3));
 
-    const noise::module::Module* gen4 = getGenerator(rand());
-    noise::module::Module* mod4 = getModifier(rand());
+    const noise::module::Module *gen4 = getGenerator(rand());
+    noise::module::Module *mod4 = getModifier(rand());
     mod4->SetSourceModule(0, *(gen4));
 
-    noise::module::Module* combiner2 = getCombiner(rand());
-    combiner2->SetSourceModule(0,(*mod3));
-    combiner2->SetSourceModule(1,(*mod4));
+    noise::module::Module *combiner2 = getCombiner(rand());
+    combiner2->SetSourceModule(0, (*mod3));
+    combiner2->SetSourceModule(1, (*mod4));
 
-    noise::module::Module* mod5 = getModifier(rand());
+    noise::module::Module *mod5 = getModifier(rand());
     mod5->SetSourceModule(0, *(combiner1));
 
-    noise::module::Module* mod6 = getModifier(rand());
+    noise::module::Module *mod6 = getModifier(rand());
     mod6->SetSourceModule(0, *(combiner2));
 
-    noise::module::Module* combiner3 = getCombiner(rand());
+    noise::module::Module *combiner3 = getCombiner(rand());
     combiner3->SetSourceModule(0, (*mod1));
     combiner3->SetSourceModule(1, (*mod2));
 
@@ -423,8 +449,9 @@ void generatePictureBySeed(std::string seed, std::string outputFileName) {
 
     renderer.AddGradientPoint(-1.00, noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
     // For a random number of times (2-6)
-        // Add a new gradient point
-    for(int i = 0; i < (rand() % 5); ++i) {
+    // Add a new gradient point
+    for (int i = 0; i < (rand() % 5); ++i)
+    {
         renderer.AddGradientPoint(getRandomDoubleInRange(-1.0, 1.0), noise::utils::Color(rand() % 256, rand() % 256, rand() % 256, 255));
     }
 
@@ -445,8 +472,47 @@ void generatePictureBySeed(std::string seed, std::string outputFileName) {
     // Combiner 2 -> 1
     // Round 3 mods/transforms
 
-
     // Memory management?
+}
+
+void generatePictureByFile(std::string filePath)
+{
+    std::ifstream f;
+    f.open(filePath);
+    std::string inputString;
+    while (f)
+    {
+        std::getline(f, inputString);
+    }
+
+#ifdef DEBUG
+    std::cout << f << " contents:" << std::endl;
+    std::cout << inputString << std::endl;
+#endif
+
+    f.close();
+
+    generatePictureBySeed(inputString);
+}
+
+void generatePictureByFile(std::string filePath, std::string outputFileName)
+{
+    std::ifstream f;
+    f.open(filePath);
+    std::string inputString;
+    while (f)
+    {
+        std::getline(f, inputString);
+    }
+
+#ifdef DEBUG
+    std::cout << f << " contents:" << std::endl;
+    std::cout << inputString << std::endl;
+#endif
+
+    f.close();
+
+    generatePictureBySeed(inputString, outputFileName);
 }
 
 noise::module::Module *getGenerator(int choice)
@@ -469,7 +535,7 @@ noise::module::Module *getGenerator(int choice)
         return new noise::module::Voronoi();
     case (7):
         return new noise::module::Perlin();
-    case(8):
+    case (8):
         return new noise::module::Billow();
     default:
         std::cout << "YOU SHOULD NOT BE HERE Generator" << std::endl;
@@ -480,7 +546,7 @@ noise::module::Module *getGenerator(int choice)
 
 noise::module::Module *getModifier(int choice)
 {
-    switch (choice % 10)
+    switch (choice % 9)
     {
     case (0):
         return new noise::module::Turbulence();
