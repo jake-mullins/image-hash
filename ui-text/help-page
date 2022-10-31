@@ -5,7 +5,7 @@ fingerprint-generator
     --input <string>
         Creates a random image <string> as seed
 
-    --input <string> <output-name>
+    --input <string> <name>
         Creates a random image called <name> using <string> as seed
 
     --file <file>
