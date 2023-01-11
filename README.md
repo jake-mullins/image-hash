@@ -46,24 +46,11 @@ Generates a picture using libnoise in the following configuration
 │          │   │          │
 └──────────┘   └──────────┘
 
-Generator
-    9 type choices
-    All are necessary
-    9 total
-Combiner
-    4 type choices with only 2 inputs
-    All are necessary
-    4 total
-Transformer
-    4 type choices
-    1 for not present
-    5 total
-Modifier
-    6 type choices
-        Curve/Terrace is more than just input->output
-    1 for not present
-    7 total
-
+Number of classes per module type:
+- Generator: 9/9 classes
+- Combiner: 4/4 classes
+- Transformer: 4/5 classes
+- Modifier: 6/7 classes
+   
 ## Possible to-do
 Probably could make a recursive function for the generators
-
