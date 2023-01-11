@@ -21,7 +21,7 @@ g++ main.cpp -o image-hash -lnoise
 ```
 
 Generates a picture using libnoise in the following configuration
-## The below diagram formats correctly when cloned or when looking at the raw data representation of this file
+## The diagram below formats correctly when cloned or when looking at the raw data representation of this file
 ┌──────────┐   ┌──────────┐
 │          │   │          │
 │ Generator├───► Modifier ├─┐
@@ -64,28 +64,6 @@ Modifier
     1 for not present
     7 total
 
-TransformerModifier list
-    Turbulence
-    Invert Input
-    Rotate
-    Scale
-    Transform
-    Absolute
-    Clamp
-    Exponent
-    ScaleBias
-    Cache?
-
-Combiner list
-    Add
-    Max
-    Min
-    Multiply
-    Power
-
-
-All modules derive from abstract noise::module::Module, so I can use it as a placeholder. OOP is kinda sick
-
-I oughtta take out the const generator, 'tis kinda cringe, but it still works effectively
-
+## Possible to-do
 Probably could make a recursive function for the generators
+
