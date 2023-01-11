@@ -16,8 +16,8 @@ cd build
 cmake ..
 make
 sudo make install
-cd ~/fingerprint-generator-cpp
-g++ main.cpp -o fingerprint-generator -lnoise
+cd ~/image-hash
+g++ main.cpp -o image-hash -lnoise
 ```
 
 Generates a picture using libnoise in the following configuration
