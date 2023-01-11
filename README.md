@@ -1,9 +1,12 @@
 # fingerprint-generator-cpp
-Generates a picture based on a bunch of system information about a computer.
+Generates an image based on an input string.
 
-The same procedure that generates a picture based on information from a computer can eventually be used in a wrapper for ssh that will generate a picture using a host's public key as an input. Check the notes folder for interesting research on why this would be a better way of identifying a familiar host than a long string of characters
+When you ssh onto a host, especially if from a new computer, you often get complaints that the host's public key has changed. Most of the time, this is for legitimate reasons, and a user will mindlessly type ```yes```. This makes most people vulnerable to MITM attacks, exposing plaintext passwords. In addition, humans are provably bad at 2 things:
+1. Remember secure passwords
+2. Compare meaningless or random strings
+Meaning that even if a public key were to change when it wasn't supposed to, signifying an MITM attack, most users wouldn't notice. Attaching an image could help defend against this by leveraging human's ability to recognize shapes and colors to minimize the risk of accepting an ssh session that is victim to an MITM.
 
-This started out as a way for me (Jake Mullins) to mess around with procedural generation in a low-level way with the libnoise library. I also did some practice with following specifications by programmatically creating a bitmap
+Other use cases include displaying a visual representation of a (browser fingerprint)[https://coveryourtracks.eff.org/static/browser-uniqueness.pdf], which can streamline the process of making sure your browser is not identifiable by a server.
 
 To compile, follow these steps
     
