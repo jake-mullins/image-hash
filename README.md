@@ -1,9 +1,12 @@
 # fingerprint-generator-cpp
-Generates a picture based on a bunch of system information about a computer.
+Generates an image based on an input string.
 
-The same procedure that generates a picture based on information from a computer can eventually be used in a wrapper for ssh that will generate a picture using a host's public key as an input. Check the notes folder for interesting research on why this would be a better way of identifying a familiar host than a long string of characters
+When you ssh onto a host, especially if from a new computer, you often get complaints that the host's public key has changed. Most of the time, this is for legitimate reasons, and a user will mindlessly type ```yes```. This makes most people vulnerable to MITM attacks, exposing plaintext passwords. In addition, humans are provably bad at 2 things:
+1. Remember secure passwords
+2. Compare meaningless or random strings
+Meaning that even if a public key were to change when it wasn't supposed to, signifying an MITM attack, most users wouldn't notice. Attaching an image could help defend against this by leveraging human's ability to recognize shapes and colors to minimize the risk of accepting an ssh session that is victim to an MITM.
 
-This started out as a way for me (Jake Mullins) to mess around with procedural generation in a low-level way with the libnoise library. I also did some practice with following specifications by programmatically creating a bitmap
+Other use cases include displaying a visual representation of a (browser fingerprint)[https://coveryourtracks.eff.org/static/browser-uniqueness.pdf], which can streamline the process of making sure your browser is not identifiable by a server.
 
 To compile, follow these steps
     
@@ -16,12 +19,12 @@ cd build
 cmake ..
 make
 sudo make install
-cd ~/fingerprint-generator-cpp
-g++ main.cpp -o fingerprint-generator -lnoise
+cd ~/image-hash
+g++ main.cpp -o image-hash -lnoise
 ```
 
 Generates a picture using libnoise in the following configuration
-## The below diagram formats correctly when cloned or when looking at the raw data representation of this file
+## The diagram below formats correctly when cloned or when looking at the raw data representation of this file
 ┌──────────┐   ┌──────────┐
 │          │   │          │
 │ Generator├───► Modifier ├─┐
@@ -46,46 +49,11 @@ Generates a picture using libnoise in the following configuration
 │          │   │          │
 └──────────┘   └──────────┘
 
-Generator
-    9 type choices
-    All are necessary
-    9 total
-Combiner
-    4 type choices with only 2 inputs
-    All are necessary
-    4 total
-Transformer
-    4 type choices
-    1 for not present
-    5 total
-Modifier
-    6 type choices
-        Curve/Terrace is more than just input->output
-    1 for not present
-    7 total
-
-TransformerModifier list
-    Turbulence
-    Invert Input
-    Rotate
-    Scale
-    Transform
-    Absolute
-    Clamp
-    Exponent
-    ScaleBias
-    Cache?
-
-Combiner list
-    Add
-    Max
-    Min
-    Multiply
-    Power
-
-
-All modules derive from abstract noise::module::Module, so I can use it as a placeholder. OOP is kinda sick
-
-I oughtta take out the const generator, 'tis kinda cringe, but it still works effectively
-
+Number of classes per module type:
+- Generator: 9/9 classes
+- Combiner: 4/4 classes
+- Transformer: 4/5 classes
+- Modifier: 6/7 classes
+   
+## Possible to-do
 Probably could make a recursive function for the generators
