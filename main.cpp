@@ -41,8 +41,6 @@ noise::module::Module *getCombiner(int choice);
 
 int main(int argc, char **argv)
 {
-    std::cout << "hello" << std::endl;
-
     // Parse Args
     std::vector<std::string> args;
     for (int i = 1; i < argc; i++)
@@ -86,7 +84,7 @@ int main(int argc, char **argv)
     // Generate map using command line input as custom output file name
     if (args.at(0) == "--input" && args.size() == 3)
     {
-        std::cout << "Generating a bitmap called " << args.at(2) << " using " << args.at(1) << "as input" << std::endl;
+        std::cout << "Generating a bitmap called " << args.at(2) << " using " << args.at(1) << " as input" << std::endl;
         generatePictureBySeed(args.at(1), args.at(2));
         return 0;
     }
